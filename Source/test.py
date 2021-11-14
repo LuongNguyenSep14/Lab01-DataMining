@@ -112,6 +112,3 @@ with open(outfile, 'w') as f:
             line.append(str(new_df[k][i]))
             
         f.write(','.join(line) + '\n')
-
-
-# git remote set-url origin https://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@github.com/luong12320/Lab01-DataMining.git
