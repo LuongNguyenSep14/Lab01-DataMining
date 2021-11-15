@@ -1,7 +1,6 @@
 '''
 7. Chuẩn hóa một thuộc tính numeric bằng phương pháp min-max và Z-score.
 '''
-from numpy import sqrt
 import pandas as pd
 import argparse
 import sys
