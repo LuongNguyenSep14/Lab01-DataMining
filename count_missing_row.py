@@ -15,8 +15,10 @@ args = parser.parse_args()
 
 infile = args.infile
 
+# read .csv file
 df = pd.read_csv(infile)
 
+# initialize var to store number of row that have missing value.
 num_missing_row = 0
 
 # loop through all rows of dataframe to count all rows that have
@@ -27,4 +29,5 @@ for r in range(len(df)):
             num_missing_row = num_missing_row + 1
             break
 
+# print out number of rows.
 print('Number of rows that have missing value: %d' % (num_missing_row))
