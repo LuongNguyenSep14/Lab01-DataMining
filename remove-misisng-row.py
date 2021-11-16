@@ -6,7 +6,7 @@ import pandas as pd
 import argparse
 
 # create a ArgumentParser object.
-parser = argparse.ArgumentParser(description="remove all columns that have ratio of missing values \
+parser = argparse.ArgumentParser(description="remove all rows that have ratio of missing values \
                                                 greater than a specified threshold")
 
 # add an argument parser for input file's name.
@@ -30,10 +30,31 @@ outfile = args.out
 if threshold is None:
     threshold = 50
 
-
+# read file .csv
 df = pd.read_csv(infile)
 
-row_with_missing = []
+# create a dict from dataframe
+new_df = dict(df)
 
 for r in range(len(df)):
-    pass
+    ratio = 0
+    for c in new_df.keys():
+        if pd.isna(new_df[c][r]):
+            ratio = ratio + 1
+            
+    n = len(new_df.keys())
+    if (ratio/n) > (threshold/100):
+        for col in new_df.keys():
+            del new_df[col][r]
+        break
+
+# export new dict to a .csv file by user specified.
+with open(outfile, 'w') as f:
+    f.write(','.join(new_df.keys()) + '\n')
+    
+    for i in range(len(df[list(new_df.keys())[0]])):
+        line = []
+        for k in new_df.keys():
+            line.append(str(new_df[k][i]))
+            
+        f.write(','.join(line) + '\n')
