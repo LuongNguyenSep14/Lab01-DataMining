@@ -3,9 +3,9 @@
 (cho thuộc tính categorical). Lưu ý: khi tính mean, median hay mode các bạn bỏ qua giá
 trị bị thiếu.
 '''
-from numpy import ceil
 import pandas as pd
 import argparse
+from math import ceil
 
 
 # initialize one ArgumemtnParser object to parse argument in command line.
