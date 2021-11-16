@@ -10,6 +10,7 @@ import sys
 import pandas as pd
 import argparse
 import re
+import numpy as np
 
 # initialize one ArgumemtnParser object to parse argument in command line.
 parser = argparse.ArgumentParser(description="Create a new attribute from multiple attributes.")
@@ -63,7 +64,7 @@ for i in range(len(df)):
     val = df.loc[i, columns[0]]
     for c, j in zip(columns[1:], operations):
         if pd.isna(df.loc[i, c]):
-            val = 0
+            val = np.nan
             break
         if j == '+':
             val = val + df.loc[i, c]
