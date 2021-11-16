@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser(description="remove all rows that have ratio of
 parser.add_argument('infile', help="name of input file")
 
 # add an argument parser for threshold.
-parser.add_argument('-t', '--threshold', metavar='', help="threshold")
+parser.add_argument('-t', '--threshold', type=int, metavar='', help="threshold")
 
 # add an argument parser for output file's name.
 parser.add_argument('-o', '--out', required=True, metavar='', help="output file's name")
@@ -36,7 +36,7 @@ df = pd.read_csv(infile)
 # create a dict from dataframe
 new_df = dict(df)
 
-for r in range(len(df)):
+for r in range(len(new_df[list(new_df.keys())[0]])):
     ratio = 0
     for c in new_df.keys():
         if pd.isna(new_df[c][r]):
@@ -49,15 +49,4 @@ for r in range(len(df)):
         break
 
 # export new dict to a .csv file by user specified.
-with open(outfile, 'w') as f:
-    f.write(','.join(new_df.keys()) + '\n')
-    
-    for i in range(len(df[list(new_df.keys())[0]])):
-        line = []
-        for k in new_df.keys():
-            line.append(str(new_df[k][i]))
-            
-        f.write(','.join(line) + '\n')
-
-
-'''hello it's me'''
+pd.DataFrame(new_df).to_csv(outfile, index=False)

@@ -75,40 +75,30 @@ if method is None:
                 if pd.isna(v):
                     df.loc[i, col] = fill_val
     
-    # if user specify a method
-    else:
-        for col in columns:
-            temp = list(df[col])
-            temp = [i for i in temp if pd.isna(i) != True]
-            fill_val = None
+# if user specify a method
+else:
+    for col in columns:
+        temp = list(df[col])
+        temp = [i for i in temp if pd.isna(i) != True]
+        fill_val = None
 
-            # calculate value which is used to fill for missing value in a column.
-            if method == "mean":
-                fill_val = sum(temp)/len(temp)
-            elif method == "median":
-                ind_median = ceil(len(temp)/2)
-                fill_val = temp[ind_median]
-            elif method == "mode":
-                d  = dict()
+        # calculate value which is used to fill for missing value in a column.
+        if method == "mean":
+            fill_val = sum(temp)/len(temp)
+        elif method == "median":
+            ind_median = ceil(len(temp)/2)
+            fill_val = temp[ind_median]
+        elif method == "mode":
+            d  = dict()
 
-                for i in set(temp):
-                    d[i] = temp.count(i)
+            for i in set(temp):
+                d[i] = temp.count(i)
 
-                fill_val = max(d)
+            fill_val = max(d)
 
-            for i, v in enumerate(df[col]):
-                if pd.isna(v):
-                    df.loc[i, col] = fill_val
+        for i, v in enumerate(df[col]):
+            if pd.isna(v):
+                df.loc[i, col] = fill_val
 
 # export to specified a output file's name.
-d = dict(df)
-
-with open(outfile, 'w') as f:
-    f.write(','.join(d.keys()) + '\n')
-    
-    for i in range(len(df[columns[0]])):
-        line = []
-        for k in d.keys():
-            line.append(str(d[k][i]))
-        
-        f.write(','.join(line) + '\n')
+df.to_csv(outfile, index=False)

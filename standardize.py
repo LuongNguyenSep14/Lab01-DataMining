@@ -100,15 +100,4 @@ elif method == 'z score':
         df.loc[i, column] = (df.loc[i, column] - mean_val)/std_val
 
 # make a new dict from a dataframe.
-new_df = dict(df)
-
-# export new dict to a .csv file by user specified.
-with open(outfile, 'w') as f:
-    f.write(','.join(new_df.keys()) + '\n')
-    
-    for i in range(len(df[list(new_df.keys())[0]])):
-        line = []
-        for k in new_df.keys():
-            line.append(str(new_df[k][i]))
-            
-        f.write(','.join(line) + '\n')
+df.to_csv(outfile, index=False)

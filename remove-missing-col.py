@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser(description="remove all columns that have ratio
 parser.add_argument('infile', help="name of input file")
 
 # add an argument parser for threshold.
-parser.add_argument('-t', '--threshold', metavar='', help="threshold")
+parser.add_argument('-t', '--threshold', type=int, metavar='', help="threshold")
 
 # add an argument parser for output file's name.
 parser.add_argument('-o', '--out', required=True, metavar='', help="output file's name")
@@ -57,17 +57,9 @@ for col in cols_with_missing:
     # ratio of missing values over all values in a column.
     ratio_of_missing = num_missing / len(df[col])
 
-    if ratio_of_missing < 50/100:
+    if ratio_of_missing > (threshold/100):
         del new_df[col]
 
 
 # export new dict to a .csv file by user specified.
-with open(outfile, 'w') as f:
-    f.write(','.join(new_df.keys()) + '\n')
-    
-    for i in range(len(df[list(new_df.keys())[0]])):
-        line = []
-        for k in new_df.keys():
-            line.append(str(new_df[k][i]))
-            
-        f.write(','.join(line) + '\n')
+pd.DataFrame(new_df).to_csv(outfile, index=False)
